@@ -1,5 +1,6 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
+import fs from 'fs'
 import qrcode from 'qrcode-terminal'
 import express from 'express'
 import basicAuth from 'express-basic-auth'
@@ -9,6 +10,13 @@ import { responderMensagem } from './responder.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// Cria pasta data e clients.json se não existir
+const dataDir = path.join(__dirname, '../data')
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
+
+const clientsPath = path.join(dataDir, 'clients.json')
+if (!fs.existsSync(clientsPath)) fs.writeFileSync(clientsPath, JSON.stringify([]))
 
 let sock
 
@@ -27,7 +35,7 @@ async function startSock() {
     const { connection, lastDisconnect, qr } = update
 
     if (qr) {
-      console.log('QR Code recebido, escaneie abaixo:')
+      console.log('QR Code recebido, escaneie no console:')
       qrcode.generate(qr, { small: true })
     }
 
@@ -41,9 +49,7 @@ async function startSock() {
       }
     }
 
-    if (connection === 'open') {
-      console.log('Conectado ao WhatsApp ✅')
-    }
+    if (connection === 'open') console.log('Conectado ao WhatsApp ✅')
   })
 
   sock.ev.on('creds.update', saveCreds)
@@ -64,16 +70,14 @@ async function startSock() {
 
       if (resposta) {
         if (Array.isArray(resposta)) {
-          for (const msg of resposta) {
-            await sock.sendMessage(from, { text: msg })
-          }
+          for (const m of resposta) await sock.sendMessage(from, { text: m })
         } else {
           await sock.sendMessage(from, { text: resposta })
         }
       }
     } catch (err) {
       console.error('Erro ao responder mensagem:', err)
-      await sock.sendMessage(from, { text: 'Desculpe, ocorreu um erro ao buscar as informações. Tente novamente mais tarde.' })
+      await sock.sendMessage(from, { text: 'Desculpe, ocorreu um erro. Tente novamente mais tarde.' })
     }
   })
 }
@@ -86,7 +90,7 @@ const app = express()
 app.use(express.static(path.join(__dirname, '../../public')))
 
 app.use('/sou-cliente', basicAuth({
-  users: { 'empresaX': 'senha123' },
+  users: { [process.env.PANEL_USER]: process.env.PANEL_PASS },
   challenge: true,
   unauthorizedResponse: 'Acesso não autorizado'
 }))
@@ -105,6 +109,6 @@ app.get('/api/sendToLead', async (req, res) => {
   }
 })
 
-app.listen(3000, () => {
-  console.log('Painel rodando em http://localhost:3000')
-})
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Painel rodando em http://localhost:${PORT}`)
