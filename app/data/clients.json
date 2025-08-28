@@ -1,0 +1,30 @@
+[
+  {
+    "cliente": "Olá, bom dia!",
+    "corretor": "Bom dia, tudo bem? Em que posso te ajudar com planos de saúde?"
+  },
+  {
+    "cliente": "Estou procurando um plano pra mim e minha esposa.",
+    "corretor": "Claro! Vocês já têm alguma operadora de preferência ou querem sugestões?"
+  },
+  {
+    "cliente": "Pode ser sugestão. Estamos vendo pela primeira vez.",
+    "corretor": "Entendi. Vocês moram em qual cidade e têm qual faixa etária aproximadamente?"
+  },
+  {
+    "cliente": "Somos de Campinas. Eu tenho 35, ela tem 33.",
+    "corretor": "Perfeito. Com essas idades e localização, tenho algumas opções com boa cobertura e preço. Posso te apresentar?"
+  },
+  {
+    "cliente": "Pode sim.",
+    "corretor": "A SulAmérica e a Amil têm planos com bom custo-benefício na região. Posso detalhar os dois pra você comparar?"
+  },
+  {
+    "cliente": "Sim, por favor.",
+    "corretor": "Beleza! A SulAmérica oferece cobertura nacional, inclui consultas, exames e internações. Já a Amil tem planos regionais com preços mais competitivos. Alguma das duas te chamou mais atenção?"
+  },
+  {
+    "cliente": "Gostei mais da SulAmérica.",
+    "corretor": "Ótima escolha! Para seguir, posso te pedir CPF e data de nascimento de vocês pra gerar a simulação?"
+  }
+]

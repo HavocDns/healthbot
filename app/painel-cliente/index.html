@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel HealthBot</title>
+</head>
+<body>
+  <h1>Painel HealthBot</h1>
+
+  <form id="formSend">
+    <label>Seu número (DDD + número):</label><br/>
+    <input type="text" id="from" placeholder="5541984771242" /><br/><br/>
+    <label>Enviar para (DDD + número):</label><br/>
+    <input type="text" id="to" placeholder="5541999999999" /><br/><br/>
+    <label>Mensagem:</label><br/>
+    <textarea id="message" rows="4" cols="40"></textarea><br/><br/>
+    <button type="submit">Enviar Mensagem</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById('formSend')
+    const status = document.getElementById('status')
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault()
+      const from = document.getElementById('from').value.trim()
+      const to = document.getElementById('to').value.trim()
+      const message = document.getElementById('message').value.trim()
+
+      if (!from || !to || !message) {
+        status.textContent = 'Preencha todos os campos.'
+        return
+      }
+
+      const url = `/api/sendToLead?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&message=${encodeURIComponent(message)}`
+
+      try {
+        const res = await fetch(url)
+        const text = await res.text()
+        status.textContent = text
+      } catch (err) {
+        status.textContent = 'Erro ao enviar mensagem: ' + err.message
+      }
+    })
+  </script>
+</body>
+</html>
