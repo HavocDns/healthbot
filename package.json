@@ -2,8 +2,12 @@
   "name": "healthbot",
   "version": "1.0.0",
   "type": "module",
+  "main": "app/bot/index.js",
   "scripts": {
     "start": "node app/bot/index.js"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
@@ -14,9 +18,9 @@
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0"
   },
-  "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": ""
 }
+
