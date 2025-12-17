@@ -1,1 +1,21 @@
+# Node.js
+node_modules/
+
+# Environment
+.env
+
+# Build
+dist/
+build/
+
+# WhatsApp Web
+.wwebjs_auth/
+.wwebjs_cache/
 auth_info/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
